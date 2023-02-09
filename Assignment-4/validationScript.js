@@ -203,7 +203,7 @@ function myCheckBox() {
     createText.setAttribute("id", "checkText");
     createText.setAttribute(
       "placeholder",
-      "Please enter the role looking for.."
+      "Enter the role looking for.(*required*)"
     );
     createText.setAttribute("required", "true");
     createText.style.width = "250px";
