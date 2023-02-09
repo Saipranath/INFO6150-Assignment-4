@@ -19,6 +19,7 @@ function myReset() {
   document.getElementById("error_emailId").style.display = "none";
   document.getElementById("error_phoneNumber").style.display = "none";
   document.getElementById("error_city").style.display = "none";
+  document.getElementById("error_state").style.display = "none";
   document.getElementById("error_zipcode").style.display = "none";
 }
 
@@ -48,12 +49,6 @@ function mySelect() {
           '<input type="checkbox" name="amazon" id="amazon" onchange="myCheckBox()" />Amazon ';
         console.log(createLabel);
         location.appendChild(createLabel);
-
-        //writing code to know checkbox enabled or not
-
-        //var checking = createLabel.firstChild;
-        //console.log(checking);
-        //console.log(checking.checked);
       } else {
         //adding checkbox based on select
         console.log("Inside else block");
@@ -64,12 +59,7 @@ function mySelect() {
         console.log(createLabel);
         location.appendChild(createLabel);
       }
-      /*var checkBox = document.createElement("label");
-            checkBox.setAttribute("id", "optionsLabel");
-            checkBox.innerHTML =
-              '<input type="checkbox" name="amazon" id="amazon" />Amazon ';
-            console.log(checkBox);
-            location.appendChild(checkBox);*/
+      
       break;
 
     case "offCampus":
@@ -236,6 +226,7 @@ var validPhone = false;
 var validZipcode = false;
 var validlastName = false;
 var validCity = false;
+var validState = false;
 
 //regular expression
 // regex checks variables
@@ -258,6 +249,8 @@ var zipcode = document.getElementById("zipcode");
 zipcode.addEventListener("input", validate);
 var city = document.getElementById("city");
 city.addEventListener("input", validate);
+var state = document.getElementById("state");
+state.addEventListener("input", validate);
 
 //validate function
 function validate(e) {
@@ -337,6 +330,18 @@ function validate(e) {
       validCity = true;
     }
     break;
+  
+    case "state":
+      if (!value.trim().match(regExName)) {
+        document.getElementById(em).style.display = "block";
+        this.style.border = "2px solid red";
+        validState = false;
+      } else {
+        document.getElementById(em).style.display = "none";
+        this.style.border = "";
+        validState = true;
+      }
+      break;
   }
 }
 
@@ -350,15 +355,12 @@ function submitted(e) {
   console.log(validlastName);
   console.log(validCity);
   //myFormData();
-  console.log(validName && validEmail && validPhone && validZipcode && validlastName && validCity);
-  if (validName && validEmail && validPhone && validZipcode && validlastName && validCity) {
+  console.log(validName && validEmail && validPhone && validZipcode && validlastName && validCity && validState);
+  if (validName && validEmail && validPhone && validZipcode && validlastName && validCity && validState) {
     alert("Data entered successfull");
     document.getElementById("feedbackData").style.display = "block";
-    //myTableData();
-    //myFormData();
     myTableData();
     form.reset();
-    //window.location.href = "./FeedbackComplete.html";
   } else {
     alert("Please enter valid details");
   }
@@ -474,53 +476,5 @@ function myTableData() {
     cell14.innerHTML = " ";
     cell15.innerHTML = " ";
   }
-  return false;
-}
-
-function myFormData() {
-  //alert("Inside myFormData");
-  var data = new FormData();
-
-  //data.append("First Name:", document.getElementById("firstName").value);
-  //data.append("Email Id:", document.getElementById("emailId").value);
-
-  //for all values
-  var all = document.querySelectorAll(
-    "#myForm input, #myForm textarea, #myForm select"
-  );
-  for (let field of all) {
-    // EXCLUDE SUBMIT
-    if (field.type != "submit") {
-      // CHECKBOX + RADIO - MUST BE CHECKED
-      if (field.type == "radio" || field.type == "checkbox") {
-        if (field.checked) {
-          data.append(field.name, field.value);
-        }
-      }
-      // OTHER FIELDS
-      else {
-        data.append(field.name, field.value);
-      }
-    }
-  }
-
-  //console.log(data.entries(0));
-  /*var table = document.getElementById("myTable");
-     var trNode = document.createElement("tr");
-        var tdName = document.createElement("td");
-        tdName.innerHTML = "Name";
-        var tdValue = document.createElement("td");
-        tdValue.innerHTML = "Value";
-
-        trNode.appendChild(tdName);
-        trNode.appendChild(tdValue);
-
-        table.appendChild(trNode);*/
-
-  //console.log(table);
-  for (let [k, v] of data.entries()) {
-    console.log(k, v);
-  }
-  //alert("displaying data..");
   return false;
 }
